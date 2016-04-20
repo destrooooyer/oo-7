@@ -12,6 +12,22 @@ import java.util.regex.Pattern;
 public class map
 {
 	private point map[][];
+	public boolean is_up_connected(int x,int y)
+	{
+		return this.map[x][y].up_connected;
+	}
+	public boolean is_down_connected(int x,int y)
+	{
+		return this.map[x][y].down_connected;
+	}
+	public boolean is_left_connected(int x,int y)
+	{
+		return this.map[x][y].left_connected;
+	}
+	public boolean is_right_connected(int x,int y)
+	{
+		return this.map[x][y].right_connected;
+	}
 
 	public map()
 	{
@@ -98,26 +114,34 @@ public class map
 					}
 					case 1:
 					{
-						this.map[i][j].right_connected = true;
 						if (j + 1 < 80)
+						{
+							this.map[i][j].right_connected = true;
 							this.map[i][j + 1].left_connected = true;
+						}
 						break;
 					}
 					case 2:
 					{
-						this.map[i][j].down_connected = true;
 						if (i + 1 < 80)
+						{
+							this.map[i][j].down_connected = true;
 							this.map[i + 1][j].up_connected = true;
+						}
 						break;
 					}
 					case 3:
 					{
-						this.map[i][j].right_connected = true;
-						this.map[i][j].down_connected = true;
 						if (i + 1 < 80)
+						{
 							this.map[i + 1][j].up_connected = true;
+							this.map[i][j].down_connected = true;
+						}
 						if (j + 1 < 80)
+						{
 							this.map[i][j + 1].left_connected = true;
+							this.map[i][j].right_connected = true;
+						}
 						break;
 					}
 					default:

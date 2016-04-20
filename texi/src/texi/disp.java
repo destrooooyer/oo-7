@@ -22,6 +22,12 @@ public class disp implements Runnable
 		requests = new LinkedList<request>();
 	}
 
+	public void add_request(request req)
+	{
+		requests.addLast(req);
+		new Thread(req).start();
+	}
+
 	@Override
 	public void run()
 	{
@@ -39,6 +45,23 @@ public class disp implements Runnable
 			{
 				cars[i].move();
 				cars[i].update_status();
+			}
+			for (request i : requests)
+			{
+				for (int j = 0; j < 100; j++)
+				{
+					//在4*4的范围内
+					if (cars[j].get_x() >= i.get_x() - 2 && cars[j].get_x() <= i.get_x() + 2 &&
+							cars[j].get_y() >= i.get_y() - 2 && cars[j].get_y() <= i.get_y() + 2)
+					{
+						//没有抢过单
+						if(i.getBo_car(j)==false)
+						{
+							i.setBo_car(j);
+							cars[j].reputation_up(1);
+						}
+					}
+				}
 			}
 		}
 	}

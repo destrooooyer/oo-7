@@ -26,6 +26,14 @@ public class car
 	private map _map;
 	private boolean stopped2serving;
 
+	public void reputation_up(int x)
+	{
+		if (x == 1)
+			this.reputation += 1;
+		else if (x == 3)
+			this.reputation += 3;
+	}
+
 	public int get_x()
 	{
 		return _x;

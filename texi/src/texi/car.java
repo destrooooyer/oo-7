@@ -128,6 +128,7 @@ public class car
 				{
 					this.stop_count = 0;
 					this.status = status_kinds.stopped;
+					reputation_up(3);
 				}
 
 				break;

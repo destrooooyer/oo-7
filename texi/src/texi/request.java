@@ -57,6 +57,6 @@ public class request implements Runnable
 		{
 			e.printStackTrace();
 		}
-
+		_disp.complete_req(this);
 	}
 }

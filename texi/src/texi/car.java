@@ -26,6 +26,31 @@ public class car
 	private map _map;
 	private boolean stopped2serving;
 
+//	public int getStop_count()
+//	{
+//		return this.stop_count;
+//	}
+//
+//	public int getWait_count()
+//	{
+//		return this.wait_count;
+//	}
+
+	public int getReputation()
+	{
+		return this.reputation;
+	}
+
+	public void choose(int x1, int y1, int x2, int y2)
+	{
+		this.status = status_kinds.to_passerger;
+		this.dest_x = x2;
+		this.dest_y = y2;
+		this.passenger_x = x1;
+		this.passenger_y = y1;
+		find_shortest_path(_x, _y, x1, y1);
+	}
+
 	public void reputation_up(int x)
 	{
 		if (x == 1)
@@ -69,14 +94,19 @@ public class car
 		{
 			case status_kinds.serving:
 			{
-				_x = path.get(path_iter).getKey();
-				_y = path.get(path_iter).getValue();
-				path_iter++;
+//				System.out.println(status+" "+_x+" "+_y+" "+this.reputation);
+				if(path.size()!=0)
+				{
+					_x = path.get(path_iter).getKey();
+					_y = path.get(path_iter).getValue();
+					path_iter++;
+				}
+
 				break;
 			}
 			case status_kinds.stopped:
 			{
-				this.stop_count++;
+//				this.stop_count++;
 				break;
 			}
 			case status_kinds.waiting:
@@ -104,14 +134,19 @@ public class car
 				this._x = temp_x[rand];
 				this._y = temp_y[rand];
 
-				this.wait_count++;
+//				this.wait_count++;
 				break;
 			}
 			case status_kinds.to_passerger:
 			{
-				_x = path.get(path_iter).getKey();
-				_y = path.get(path_iter).getValue();
-				path_iter++;
+//				System.out.println(status+" "+_x+" "+_y+" "+this.reputation);
+				if(path.size()!=0)
+				{
+					_x = path.get(path_iter).getKey();
+					_y = path.get(path_iter).getValue();
+					path_iter++;
+				}
+
 				break;
 			}
 			default:
@@ -135,6 +170,7 @@ public class car
 			}
 			case status_kinds.stopped:
 			{
+				this.stop_count++;
 				if (this.stop_count >= 10)
 				{
 					this.stop_count = 0;
@@ -150,21 +186,18 @@ public class car
 						this.wait_count = 0;
 					}
 				}
-				else
-					this.stop_count++;
 
 				break;
 			}
 			case status_kinds.waiting:
 			{
+				this.wait_count++;
 				if (this.wait_count >= 200)
 				{
 					this.wait_count = 0;
 					this.stop_count = 0;
 					this.status = status_kinds.stopped;
 				}
-				else
-					this.wait_count++;
 
 				break;
 			}
@@ -216,6 +249,7 @@ public class car
 		{
 			int x = x_list.removeFirst();   //取出队头
 			int y = y_list.removeFirst();
+
 			if (this._map.is_left_connected(x, y) && !bo[x][y - 1])     //与左相连
 			{
 				x_list.addLast(x);          //左边的点入队
@@ -235,8 +269,10 @@ public class car
 					while (temp_x != x1 || temp_y != y1)
 					{
 						temp_list.addLast(new Pair<Integer, Integer>(temp_x, temp_y));
-						temp_x = x_prev[x2][y2];
-						temp_y = y_prev[x2][y2];
+						int temp_temp_x;
+						temp_temp_x = x_prev[temp_x][temp_y];
+						temp_y = y_prev[temp_x][temp_y];
+						temp_x = temp_temp_x;
 					}
 					this.path_iter = 0;
 					this.path.clear();
@@ -263,8 +299,10 @@ public class car
 					while (temp_x != x1 || temp_y != y1)
 					{
 						temp_list.addLast(new Pair<Integer, Integer>(temp_x, temp_y));
-						temp_x = x_prev[x2][y2];
-						temp_y = y_prev[x2][y2];
+						int temp_temp_x;
+						temp_temp_x = x_prev[temp_x][temp_y];
+						temp_y = y_prev[temp_x][temp_y];
+						temp_x = temp_temp_x;
 					}
 					this.path_iter = 0;
 					this.path.clear();
@@ -281,6 +319,7 @@ public class car
 				y_prev[x + 1][y] = y;
 				bo[x + 1][y] = true;
 
+
 				if (x + 1 == x2 && y == y2)
 				{
 					LinkedList<Pair<Integer, Integer>> temp_list = new LinkedList<Pair<Integer, Integer>>();
@@ -290,9 +329,12 @@ public class car
 					int temp_y = y_prev[x2][y2];
 					while (temp_x != x1 || temp_y != y1)
 					{
+//						System.out.println(temp_x+"\t"+temp_y);
 						temp_list.addLast(new Pair<Integer, Integer>(temp_x, temp_y));
-						temp_x = x_prev[x2][y2];
-						temp_y = y_prev[x2][y2];
+						int temp_temp_x;
+						temp_temp_x = x_prev[temp_x][temp_y];
+						temp_y = y_prev[temp_x][temp_y];
+						temp_x = temp_temp_x;
 					}
 					this.path_iter = 0;
 					this.path.clear();
@@ -319,8 +361,10 @@ public class car
 					while (temp_x != x1 || temp_y != y1)
 					{
 						temp_list.addLast(new Pair<Integer, Integer>(temp_x, temp_y));
-						temp_x = x_prev[x2][y2];
-						temp_y = y_prev[x2][y2];
+						int temp_temp_x;
+						temp_temp_x = x_prev[temp_x][temp_y];
+						temp_y = y_prev[temp_x][temp_y];
+						temp_x = temp_temp_x;
 					}
 					this.path_iter = 0;
 					this.path.clear();

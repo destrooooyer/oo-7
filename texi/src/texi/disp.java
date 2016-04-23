@@ -54,9 +54,9 @@ public class disp implements Runnable
 			request req = new request(x, y, dest_x, dest_y, this);
 			requests.addLast(req);
 
-			if (requests.size() >= 300)
+			if (requests.size() > 300)
 			{
-				System.out.println("程序正在执行的请求数已经超过作业要求的300，虽然程序继续运行，但出现任何问题一概不负责");
+				System.out.println("程序正在执行的请求数已经超过作业要求的300，虽然程序继续运行，但不对发生的错误负责");
 			}
 
 			new Thread(req).start();
@@ -236,7 +236,7 @@ public class disp implements Runnable
 
 		public int get_x(int x)
 		{
-			if (x >= 100)
+			if (x >= 100 || x < 0)
 			{
 				System.out.println("错误的参数");
 				return -1;
@@ -246,7 +246,7 @@ public class disp implements Runnable
 
 		public int get_y(int x)
 		{
-			if (x >= 100)
+			if (x >= 100 || x < 0)
 			{
 				System.out.println("错误的参数");
 				return -1;
@@ -256,7 +256,7 @@ public class disp implements Runnable
 
 		public int get_reputation(int x)
 		{
-			if (x >= 100)
+			if (x >= 100 || x < 0)
 			{
 				System.out.println("错误的参数");
 				return -1;
@@ -266,7 +266,7 @@ public class disp implements Runnable
 
 		public String get_status(int x)
 		{
-			if (x >= 100)
+			if (x >= 100 || x < 0)
 			{
 				System.out.println("错误的参数");
 				return "WTH!!???";
